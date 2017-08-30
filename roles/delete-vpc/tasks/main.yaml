@@ -1,8 +1,32 @@
 ---
 
 ####################
-# Delete Kubernetes cluster using Kops
+# Delete vpc entities
 ####################
 
-- name: Delete the cluster
-  shell: "kops delete cluster {{ cluster_name }} --state {{ state_store }} --yes"
+- name: Get the VPC info
+  ec2_vpc_net_facts:
+    filters:
+      "tag:Environment": "{{ tag_environment }}"
+  register: vpcinfo
+
+
+- name: Delete route53 private zone
+  route53_zone:
+    zone: "{{ dns_zone }}"
+    vpc_id: "{{ vpcinfo.vpcs[0].id }}"
+    state: absent
+
+
+- name: Delete internet gateway
+  ec2_vpc_igw:
+    vpc_id: "{{ vpcinfo.vpcs[0].id }}"
+    state: absent
+
+
+- name: Delete the vpc
+  ec2_vpc_net:
+    name: "{{ aws_region }}"
+    cidr_block: "{{ network_cidr }}"
+    state: absent
+    region: us-east-1

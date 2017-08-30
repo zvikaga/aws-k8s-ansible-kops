@@ -1,22 +1,44 @@
 ---
 
 ####################
-# Create Kubernetes cluster using Kops
+# Create entities
 ####################
 
-- name: List clusters
-  shell: "kops create clusters --state {{ state_store }}"
-  register: get_clusters
+- name: Create S3 bucket
+  s3_bucket:
+    name: "{{ state_store | replace('s3://', '') }}"
+    state: present
+    region: "{{ aws_region }}"
+    versioning: no
+    tags:
+      Name: "{{ state_store | replace('s3://', '') }}"
+      Creator: "{{ tag_creator }}"
+      Owner: "{{ tag_owner }}"
+      Application: "{{ tag_application }}"
+      CostCenter: "{{ tag_costcenter }}"
+      Confidentiality: "{{ tag_confidentiality }}"
+      Environment: "{{ tag_environment }}"
 
-- name: Configure the cluster
-  shell: "kops create cluster --associate-public-ip=false --bastion=true --cloud=aws --dns-zone={{ dns_zone }} --master-size={{ master_size }} --master-zones={{ master_zones|default(aws_zones) }} --master-count={{ master_count }} --master-volume-size={{ master_volume_size }} --network-cidr={{ network_cidr }} --networking={{ kubernetes_networking }} --node-count={{ node_count }} --node-size={{ node_size }} --node-volume-size={{ node_volume_size }} --target=direct --topology=private --zones={{ aws_zones }} --ssh-public-key={{ ssh_public_key }} --name={{ cluster_name }} --state {{ state_store }} --cloud-labels=\"Application={{ tag_application }},Confidentiality={{ tag_confidentiality }},CostCenter={{ tag_costcenter }},Product={{ tag_product }},Owner={{ tag_owner }},Creator={{ tag_creator }},Environment={{ tag_environment }}\" --authorization=rbac --encrypt-etcd-storage"
 
-- name: Create the physical cluster
-  shell: "kops update cluster {{ cluster_name }} --yes --state {{ state_store }}"
+- name: Create VPC
+  ec2_vpc_net:
+    name: "{{ aws_region }}"
+    state: present
+    cidr_block: "{{ network_cidr }}"
+    resource_tags: { "Environment":"{{ tag_environment }}" }
+    region: "{{ aws_region }}"
+  register: vpc_result
 
-- name: Verify that all Kubernetes nodes are ready
-  shell: kubectl get nodes | grep "Ready" | wc -l
-  register: cmd_result
-  until: cmd_result.stdout.find('{{ node_count + master_count }}') != -1
-  retries: 20
-  delay: 60
+
+- name: Create internet gateway
+  ec2_vpc_igw:
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    state: present
+
+
+- name: Create route53 private zone
+  route53_zone:
+    zone: "{{ dns_zone }}"
+    state: present
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    comment: for customer k8s cluster
