@@ -1,0 +1,14 @@
+---
+###########################
+# Setup Kubernetes Add-Ons
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - kubectl-config
+    - storage
+    - dashboard
+    - heapster
+    - external-dns
+    #- route53-mapper

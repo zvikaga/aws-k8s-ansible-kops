@@ -1,0 +1,11 @@
+---
+###########################
+# Setup Kubernetes Cluster
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+#    - lambda-delete
+#    - lambda-install
+    - create-cluster
