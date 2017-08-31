@@ -1,0 +1,15 @@
+---
+
+####################
+# Generate SSH key pair
+####################
+
+- name: Generates ssh key pair
+    shell: ssh-keygen -t rsa -N "" -q -f {{ new_priv_key }}
+    when: inventory_hostname == play_hosts[0]
+    delegate_to: localhost
+
+- name: Move new key into default location
+    shell: mv {{ new_priv_key }} ~/.ssh/id_rsa
+    when: inventory_hostname == play_hosts[0]
+    delegate_to: localhost
