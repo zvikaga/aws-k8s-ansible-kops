@@ -1,0 +1,53 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: kops/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: "2017-03-19T13:34:45Z"
+  name: demo.nivenly.com
+spec:
+  api:
+    loadBalancer:
+      type: Public
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://nivenly-state-store/demo.nivenly.com
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: master-us-west-1a
+      name: a
+    name: main
+  - etcdMembers:
+    - instanceGroup: master-us-west-1a
+      name: a
+    name: events
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.5.2
+  masterInternalName: api.internal.demo.nivenly.com
+  masterPublicName: api.demo.nivenly.com
+  networkCIDR: 172.20.0.0/16
+  networking:
+    weave: {}
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 172.20.32.0/19
+    name: us-west-1a
+    type: Private
+    zone: us-west-1a
+  - cidr: 172.20.0.0/22
+    name: utility-us-west-1a
+    type: Utility
+    zone: us-west-1a
+  topology:
+    bastion:
+      bastionPublicName: bastion.demo.nivenly.com
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+

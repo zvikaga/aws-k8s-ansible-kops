@@ -1,10 +1,10 @@
 ---
 
 ####################
-# Create the S3 bucket for the Kops state store
+# Delete the S3 bucket for the Kops state store
 ####################
 
-# Create a simple s3 bucket
+# Delete a simple s3 bucket
 - s3_bucket:
     name: "{{ state_store | replace('s3://', '') }}"
     state: absent

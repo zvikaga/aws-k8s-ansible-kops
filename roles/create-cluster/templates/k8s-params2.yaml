@@ -1,0 +1,153 @@
+apiVersion: kops/v1alpha1
+kind: Cluster
+metadata:
+  name: customer.aws.k8s
+spec:
+#  kubeAPIServer:
+#    oidcCAFile: /srv/kubernetes/ca.crt
+#    oidcClientID: kubernetes
+#    oidcIssuerURL: https://dex.customer.aws.k8s:5556
+  clusterDNSDomain: customer.aws.k8s
+  adminAccess:
+  - 0.0.0.0/0
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://customerk8s
+#  etcdClusters:
+#  - etcdMembers:
+#    - name: us-west-2a
+#      zone: us-west-2a
+#    - name: us-west-2b
+#      zone: us-west-2b
+#    - name: us-west-2c
+#      zone: us-west-2c
+#    name: main
+#  - etcdMembers:
+#    - name: us-west-2a
+#      zone: us-west-2a
+#    - name: us-west-2b
+#      zone: us-west-2b
+#    - name: us-west-2c
+#      zone: us-west-2c
+#    name: events
+  kubernetesVersion: v1.7.2
+  masterInternalName: api.internal.customer.aws.k8s
+  masterPublicName: api.customer.aws.k8s
+  networkCIDR: 172.85.0.0/16
+  networkID: "{{ vpcinfo.vpcs[0].id }}"
+  networking:
+    calico: {}
+#  nonMasqueradeCIDR: 100.65.0.0/16
+  topology:
+    masters: private
+    nodes: private
+#  zones:
+#  - cidr: 10.3.10.0/24
+#    name: us-west-2a
+#    privateCIDR: 10.3.32.0/22
+#  - cidr: 10.3.11.0/24
+#    name: us-west-2b
+#    privateCIDR: 10.3.64.0/22
+#  - cidr: 10.3.12.0/24
+#    name: us-west-2c
+#    privateCIDR: 10.3.96.0/22
+
+
+
+---
+
+#apiVersion: kops/v1alpha2
+#kind: InstanceGroup
+#metadata:
+#  creationTimestamp: 2017-05-04T23:21:48Z
+#  labels:
+#    kops.k8s.io/cluster: customer.aws.k8s
+#  name: bastions
+#spec:
+#  image: kope.io/k8s-1.6-debian-jessie-amd64-hvm-ebs-2017-05-02
+#  machineType: t2.micro
+#  maxSize: 1
+#  minSize: 1
+#  role: Bastion
+#  subnets:
+#  - utility-us-east-2d
+#  - utility-us-east-2b
+#  - utility-us-east-2c
+
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+#  creationTimestamp: 2017-05-04T23:21:47Z
+  labels:
+    kops.k8s.io/cluster: customer.aws.k8s
+  name: master-us-east-2d
+spec:
+  image: kope.io/k8s-1.6-debian-jessie-amd64-hvm-ebs-2017-05-02
+  machineType: m4.large
+  maxSize: 1
+  minSize: 1
+  role: Master
+#  subnets:
+#  - us-east-2d
+
+
+---
+
+#apiVersion: kops/v1alpha2
+#kind: InstanceGroup
+#metadata:
+#  creationTimestamp: 2017-05-04T23:21:47Z
+#  labels:
+#    kops.k8s.io/cluster: customer.aws.k8s
+#  name: master-us-east-2b
+#spec:
+#  image: kope.io/k8s-1.6-debian-jessie-amd64-hvm-ebs-2017-05-02
+#  machineType: m4.large
+#  maxSize: 1
+#  minSize: 1
+#  role: Master
+#  subnets:
+#  - us-east-2b
+
+
+---
+
+#apiVersion: kops/v1alpha2
+#kind: InstanceGroup
+#metadata:
+#  creationTimestamp: 2017-05-04T23:21:48Z
+#  labels:
+#    kops.k8s.io/cluster: customer.aws.k8s
+#  name: master-us-east-2c
+#spec:
+#  image: kope.io/k8s-1.6-debian-jessie-amd64-hvm-ebs-2017-05-02
+#  machineType: m4.large
+#  maxSize: 1
+#  minSize: 1
+#  role: Master
+#  subnets:
+#  - us-east-2c
+
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+#  creationTimestamp: 2017-05-04T23:21:48Z
+  labels:
+    kops.k8s.io/cluster: customer.aws.k8s
+  name: nodes
+spec:
+#  image: kope.io/k8s-1.6-debian-jessie-amd64-hvm-ebs-2017-05-02
+  machineType: m4.xlarge
+  maxSize: 2
+  minSize: 2
+  role: Node
+#  subnets:
+#  - us-east-2b
+#  - us-east-2c
+#  - us-east-2d

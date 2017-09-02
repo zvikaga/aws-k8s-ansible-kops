@@ -7,5 +7,5 @@
 - hosts: localhost
   connection: local
   roles:
-    - lambda-delete
+#    - lambda-delete
     - delete-cluster
