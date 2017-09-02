@@ -5,7 +5,7 @@
 ####################
 
 - name: List clusters
-  shell: "kops get cluster {{ name }}  --state {{ state_store }}"
+  shell: "kops get cluster {{ cluster_name }}  --state {{ state_store }}"
   register: get_clusters
 
 #- name: Configure the cluster
