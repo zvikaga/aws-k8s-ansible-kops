@@ -24,16 +24,8 @@
     state: absent
 
 
-- name: Delete the vpc
-  ec2_vpc_net:
-    name: "{{ aws_region }}"
-    cidr_block: "{{ network_cidr }}"
-    state: absent
-    region: us-east-1
-
-
-# Delete a simple s3 bucket
-- s3_bucket:
+- name: Delete a simple s3 bucket
+  s3_bucket:
     name: "{{ state_store | replace('s3://', '') }}"
     state: absent
     region: "{{ aws_region }}"
@@ -46,3 +38,11 @@
       CostCenter: "{{ tag_costcenter }}"
       Confidentiality: "{{ tag_confidentiality }}"
       Environment: "{{ tag_environment }}"
+
+
+- name: Delete the vpc
+  ec2_vpc_net:
+    name: "{{ aws_region }}"
+    cidr_block: "{{ network_cidr }}"
+    state: absent
+    region: us-east-1

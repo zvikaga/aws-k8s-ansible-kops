@@ -9,3 +9,4 @@
   roles:
 #    - lambda-delete
     - delete-cluster
+    - delete-vpc

@@ -8,4 +8,5 @@
   roles:
 #    - lambda-delete
 #    - lambda-install
+    - create-vpc
     - create-cluster

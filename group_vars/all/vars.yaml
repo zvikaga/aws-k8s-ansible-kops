@@ -1,11 +1,12 @@
 ---
-cluster_name: cluster1.customerk8s.com
+cluster_name: custk8s.customerk8s.local
 state_store: s3://customerk8s
 
 # Remote access
 ssh_public_key: ~/.ssh/id_rsa.pub
 
 # Regions / Availability zones
+cloud_provider: aws
 aws_region: us-east-1
 aws_zones: us-east-1a,us-east-1b,us-east-1c
 # Use master_zones if you want your masters in different zones than worker nodes.
@@ -15,7 +16,8 @@ master_zones: us-east-1a
 
 # Network
 vpc_name: customerk8s
-dns_zone: customerk8s.com
+dns: private
+dns_zone: customerk8s.local
 network_cidr: 172.85.0.0/16
 kubernetes_networking: calico
 

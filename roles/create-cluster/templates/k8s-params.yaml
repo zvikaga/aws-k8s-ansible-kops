@@ -50,4 +50,3 @@ spec:
       type: Public
     masters: private
     nodes: private
-
