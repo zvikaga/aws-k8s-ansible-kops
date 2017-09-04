@@ -13,15 +13,21 @@ aws_zones: us-east-1a,us-east-1b,us-east-1c
 # Useful especially when you want 1 master in single zone but workers in several zones.
 # When not defined, aws_zones will be sued instead
 master_zones: us-east-1a
+bastion: false
+
 
 # Network
+api-elb: public
 vpc_name: customerk8s
 dns: private
 dns_zone: customerk8s.local
 network_cidr: 172.85.0.0/16
 kubernetes_networking: calico
+associate_public: false
+topology: private
 
-# EC2 host sizing
+# EC2 host sizing:
+image: ami-cd0f5cb6
 master_size: m3.medium
 master_count: 1
 master_volume_size: 100
