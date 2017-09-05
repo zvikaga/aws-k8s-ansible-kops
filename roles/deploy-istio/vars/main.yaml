@@ -1,0 +1,5 @@
+---
+
+istio_version: "0.1.6"
+osext: "linux"
+url: "https://github.com/istio/istio/releases/download/${ISTIO_VERSION}/istio-${ISTIO_VERSION}-${OSEXT}.tar.gz"

@@ -7,6 +7,8 @@ RUN apk update && apk add --no-cache ca-certificates \
     py-pip \
     groff \
     vim \
+    unzip \
+    tar \
     git && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
@@ -14,6 +16,7 @@ RUN apk update && apk add --no-cache ca-certificates \
 RUN pip install boto boto3
 
 RUN mkdir /etc/ansible && \
+    mkdir /tufin-infra && \
     mkdir ~/.ssh && \
     chmod 755 ~/.ssh
 

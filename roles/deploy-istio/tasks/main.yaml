@@ -1,0 +1,19 @@
+---
+
+####################
+# Deploy Istio
+####################
+
+#- name: deploy istio
+#  template:
+#    src: autoscaler.yaml.j2
+#    dest: /tmp/autoscaler.yaml
+#    mode: 0644
+#  become: false
+
+- name: deploy istio services
+  shell: "kubectl apply -f istio-services.yaml"
+  shell: "kubectl apply -f istio-rbac.yaml"
+
+#- name: deploy istio rbac
+

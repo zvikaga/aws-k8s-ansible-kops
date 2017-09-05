@@ -1,0 +1,9 @@
+---
+###########################
+# Deploy Istio
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - install-istio

@@ -1,0 +1,27 @@
+---
+
+####################
+# Install Istio
+####################
+
+- name: Download istioctl binaries
+  get_url:
+    url: "{{ url }}"
+    dest: /tufin-infra/
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+    # TODO Add hash check
+  when: osext == "linux"
+  become: true
+
+- name: untar istio binaries
+  unarchive:
+    src: /tufin-infra/istio-{{ istio_version }}-{{ osext }}.tar.gz
+    dest: /tufin-infra/
+
+- name: Add istioctl to PATH
+  shell: echo $PATH
+  environment:
+    PATH: '{{ ansible_env.PATH }}:/tufin-infra/istio-{{ istio_version }}'
