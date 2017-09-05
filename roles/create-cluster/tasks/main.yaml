@@ -35,9 +35,10 @@
   shell: "kubectl config set-cluster custk8s.customerk8s.local --server=https://'{{ elb_facts.elbs.0.dns_name }}' --insecure-skip-tls-verify=true"
 
 
-#- name: Verify that all Kubernetes nodes are ready
-#  shell: kubectl get nodes | grep "Ready" | wc -l
-#  register: cmd_result
-#  until: cmd_result.stdout.find('{{ node_count + master_count }}') != -1
-#  retries: 20
-#  delay: 60
+- name: Verify that all Kubernetes nodes are ready
+  shell: kubectl get nodes | grep "Ready" | wc -l
+  register: cmd_result
+  until: cmd_result.stdout.find('{{ node_count + master_count }}') != -1
+  retries: 5
+  delay: 15
+  when: elb_facts.elbs.0.instances_inservice_count >=1
