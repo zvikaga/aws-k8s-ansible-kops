@@ -12,19 +12,19 @@ aws_zones: us-east-1a,us-east-1b,us-east-1c
 # Use master_zones if you want your masters in different zones than worker nodes.
 # Useful especially when you want 1 master in single zone but workers in several zones.
 # When not defined, aws_zones will be sued instead
-master_zones: us-east-1a
+master_zones:
 bastion: false
 
 
 # Network
-api-elb: public
+api_elb:
 vpc_name: customerk8s
-dns: private
+dns: private # skipps dns resolution for the cluster
 dns_zone: customerk8s.local
 network_cidr: 172.85.0.0/16
 kubernetes_networking: calico
-associate_public: false
-topology: private
+associate_public: false # ignored if topology is private
+topology: private # places the intances in a private subnet
 
 # EC2 host sizing:
 image: ami-cd0f5cb6
@@ -44,4 +44,4 @@ tag_application: customer_cluster
 tag_costcenter: None
 tag_product: None
 tag_confidentiality: None
-tag_environment: customerk8s_a
+tag_environment: customerk8s

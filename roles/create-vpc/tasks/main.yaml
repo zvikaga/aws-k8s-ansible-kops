@@ -22,12 +22,27 @@
 
 - name: Create VPC
   ec2_vpc_net:
-    name: "{{ aws_region }}"
+    name: "{{ vpc_name }}"
     state: present
     cidr_block: "{{ network_cidr }}"
     resource_tags: { "Environment":"{{ tag_environment }}" }
     region: "{{ aws_region }}"
   register: vpc_result
+
+
+- name: List all hosted zones
+  route53_facts:
+    query: hosted_zone
+  register: hosted_zones
+
+- name: Create route53 private zone
+  route53_zone:
+    vpc_region: "{{ aws_region }}"
+    zone: "{{ dns_zone }}"
+    state: present
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    comment: for customer k8s cluster
+#  ignore_errors: true
 
 
 - name: Create internet gateway
@@ -36,9 +51,3 @@
     state: present
 
 
-- name: Create route53 private zone
-  route53_zone:
-    zone: "{{ dns_zone }}"
-    state: present
-    vpc_id: "{{ vpc_result.vpc.id }}"
-    comment: for customer k8s cluster

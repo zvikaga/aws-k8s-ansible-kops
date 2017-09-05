@@ -4,6 +4,13 @@
 # Create Kubernetes cluster using Kops
 ####################
 
+- name: Get VPC info
+  ec2_vpc_net_facts:
+    filters:
+      "tag:Name": customerk8s
+  register: vpcinfo
+
+
 - name: List clusters
   shell: "kops get clusters  --state {{ state_store }}"
   register: get_clusters
@@ -11,7 +18,7 @@
 
 - name: Configure the cluster
 #  shell: "kops create cluster --associate-public-ip=false --bastion=true --cloud=aws --dns-zone={{ dns_zone }} --master-size={{ master_size }} --master-zones={{ master_zones|default(aws_zones) }} --master-count={{ master_count }} --master-volume-size={{ master_volume_size }} --network-cidr={{ network_cidr }} --networking={{ kubernetes_networking }} --node-count={{ node_count }} --node-size={{ node_size }} --node-volume-size={{ node_volume_size }} --target=direct --topology=private --zones={{ aws_zones }} --ssh-public-key={{ ssh_public_key }} --name={{ cluster_name }} --state {{ state_store }} --cloud-labels=\"Application={{ tag_application }},Confidentiality={{ tag_confidentiality }},CostCenter={{ tag_costcenter }},Product={{ tag_product }},Owner={{ tag_owner }},Creator={{ tag_creator }},Environment={{ tag_environment }}\" --authorization=rbac --encrypt-etcd-storage"
-  shell: "kops create cluster --api-loadbalancer-type={{ api_elb }} --associate-public-ip={{ associate_public }} --bastion={{ bastion }} --cloud={{ cloud_provider }} --dns={{ dns }} --dns-zone={{ dns_zone }} --image={{ image }} --master-size={{ master_size }} --master-zones={{ master_zones|default(aws_zones) }} --master-count={{ master_count }} --master-volume-size={{ master_volume_size }} --network-cidr={{ network_cidr }} --networking={{ kubernetes_networking }} --node-count={{ node_count }} --node-size={{ node_size }} --node-volume-size={{ node_volume_size }} --target=direct --topology={{ topology }} --zones={{ aws_zones }} --ssh-public-key={{ ssh_public_key }} --name={{ cluster_name }} --state {{ state_store }} --cloud-labels=\"Application={{ tag_application }},Confidentiality={{ tag_confidentiality }},CostCenter={{ tag_costcenter }},Product={{ tag_product }},Owner={{ tag_owner }},Creator={{ tag_creator }},Environment={{ tag_environment }}\" --authorization=rbac --encrypt-etcd-storage"
+  shell: "kops create cluster --vpc={{ vpcinfo.vpcs[0].id }} --associate-public-ip={{ associate_public }} --bastion={{ bastion }} --cloud={{ cloud_provider }} --dns={{ dns }} --dns-zone={{ dns_zone }} --image={{ image }} --master-size={{ master_size }} --master-zones={{ master_zones|default(aws_zones) }} --master-count={{ master_count }} --master-volume-size={{ master_volume_size }} --network-cidr={{ network_cidr }} --networking={{ kubernetes_networking }} --node-count={{ node_count }} --node-size={{ node_size }} --node-volume-size={{ node_volume_size }} --target=direct --topology={{ topology }} --zones={{ aws_zones }} --ssh-public-key={{ ssh_public_key }} --name={{ cluster_name }} --state {{ state_store }} --cloud-labels=\"Application={{ tag_application }},Confidentiality={{ tag_confidentiality }},CostCenter={{ tag_costcenter }},Product={{ tag_product }},Owner={{ tag_owner }},Creator={{ tag_creator }},Environment={{ tag_environment }}\" --authorization=rbac --encrypt-etcd-storage -v=7"
   when: get_clusters.stdout.find('{{ cluster_name }}') == -1
 
 
@@ -24,8 +31,8 @@
   register: elb_facts
 
 
-- name: Get elb pulic ip
-  shell: "kubectl config set-cluster custk8s.customerk8s.local --server='{{ elb_facts.elbs.0.dns_name }}'"
+- name: change kubectl server config to the api elb address
+  shell: "kubectl config set-cluster custk8s.customerk8s.local --server=https://'{{ elb_facts.elbs.0.dns_name }}' --insecure-skip-tls-verify=true"
 
 
 #- name: Verify that all Kubernetes nodes are ready
