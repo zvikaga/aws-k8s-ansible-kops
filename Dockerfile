@@ -26,4 +26,4 @@ RUN wget https://storage.googleapis.com/kubernetes-release/release/v1.7.2/bin/li
     chmod u+x /usr/local/bin/kops /usr/local/bin/kubectl
 
 
-CMD [ "/bin/sh", "-c", "cd etc/ansible && git clone $GIT_REPO . && /bin/sh"]
+CMD [ "/bin/sh", "-c", "cd /etc/ansible && git clone $GIT_REPO . && /bin/sh"]
