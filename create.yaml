@@ -7,7 +7,9 @@
   connection: local
   roles:
     - clone-git-repos
-    - create-vpc
-    - create-cluster
-    - install-istio
-    - deploy-istio
+    - generate-ssh-keys
+#    - create-vpc
+#    - create-cluster
+#    - install-istio
+#    - deploy-istio
+#    - deploy-aut
