@@ -4,17 +4,10 @@
 # Generate SSH key pair
 ####################
 
-#- name: Generates ssh key pair
-#    shell: ssh-keygen -t rsa -N "" -q -f {{ new_priv_key }}
-#    when: inventory_hostname == play_hosts[0]
-#    delegate_to: localhost
-#
-#- name: Move new key into default location
-#    shell: mv {{ new_priv_key }} ~/.ssh/id_rsa
-#    when: inventory_hostname == play_hosts[0]
-#    delegate_to: localhost
+- openssl_privatekey:
+    path: /etc/ansuble/kops-privkey.pem
+    size: 2048
 
-- name: Generate SSH keys
-  shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
-  args:
-    creates: /root/.ssh/id_rsa
+- openssl_publickey:
+    path: /etc/ansuble/kops-pubkey.pem
+    privatekey_path: /etc/ansuble/kops-privkey.pem
