@@ -6,7 +6,8 @@
 - hosts: localhost
   connection: local
   roles:
-#    - lambda-delete
-#    - lambda-install
+    - clone-git-repos
     - create-vpc
     - create-cluster
+    - install-istio
+    - deploy-istio

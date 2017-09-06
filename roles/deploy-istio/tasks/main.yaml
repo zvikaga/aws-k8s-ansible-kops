@@ -13,7 +13,6 @@
 
 - name: deploy istio services
   shell: "kubectl apply -f istio-services.yaml"
+
+- name: deploy istio rbac
   shell: "kubectl apply -f istio-rbac.yaml"
-
-#- name: deploy istio rbac
-

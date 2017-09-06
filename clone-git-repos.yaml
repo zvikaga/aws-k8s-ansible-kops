@@ -1,0 +1,10 @@
+---
+
+############################################
+# Clone git repos
+############################################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - clone-git-repos

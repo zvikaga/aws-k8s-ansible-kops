@@ -1,0 +1,15 @@
+---
+
+####################
+# Clone git repos for Ansible ans Tufin-infra
+####################
+
+- name: clone tufin-infra
+  git:
+    repo: https://{{ ansible_env.GIT_TOKEN }}:x-oauth-basic@github.com/Tufin/tufin-infra.git
+    dest: /tufin-infra
+
+- name: clone ansible playbooks
+  git:
+    repo: https://{{ ansible_env.GIT_TOKEN }}:x-oauth-basic@github.com/zvikaga/aws-k8s-ansible-kops.git
+    dest: /usr/tmp/
