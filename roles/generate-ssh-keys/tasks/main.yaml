@@ -4,6 +4,12 @@
 # Generate SSH key pair
 ####################
 
+- name: Check if keys already exists
+  stat:
+    path: ~/.ssh/id_rsa
+  register: keys
+
 - name: Generates ssh key pair
   shell: ssh-keygen -t rsa -N "" -q -f {{ ssh_private_key }}
   delegate_to: localhost
+  when: keys.stat.exists == false
