@@ -3,7 +3,8 @@ cluster_name: custk8s.customerk8s.local
 state_store: s3://customerk8s
 
 # Remote access
-ssh_public_key: /etc/ansuble/kops-pubkey.pem
+ssh_public_key: ~/.ssh/id_rsa.pub
+ssh_private_key: ~/.ssh/id_rsa
 
 # Regions / Availability zones
 cloud_provider: aws

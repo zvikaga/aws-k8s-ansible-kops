@@ -4,10 +4,6 @@
 # Generate SSH key pair
 ####################
 
-- openssl_privatekey:
-    path: /etc/ansuble/kops-privkey.pem
-    size: 2048
-
-- openssl_publickey:
-    path: /etc/ansuble/kops-pubkey.pem
-    privatekey_path: /etc/ansuble/kops-privkey.pem
+- name: Generates ssh key pair
+  shell: ssh-keygen -t rsa -N "" -q -f {{ ssh_private_key }}
+  delegate_to: localhost

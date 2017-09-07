@@ -5,6 +5,7 @@ RUN apk update && apk add --no-cache ca-certificates \
     ansible \
     curl \
     py-pip \
+    openssh-keygen \
     groff \
     vim \
     unzip \

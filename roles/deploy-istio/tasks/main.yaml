@@ -12,7 +12,7 @@
 #  become: false
 
 - name: deploy istio services
-  shell: "kubectl apply -f istio-services.yaml"
+  shell: kubectl create -f "/tufin-infra/istio-{{ istio_version }}"/
 
 - name: deploy istio rbac
   shell: "kubectl apply -f istio-rbac.yaml"
