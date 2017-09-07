@@ -4,15 +4,8 @@
 # Deploy Istio
 ####################
 
-#- name: deploy istio
-#  template:
-#    src: autoscaler.yaml.j2
-#    dest: /tmp/autoscaler.yaml
-#    mode: 0644
-#  become: false
-
-- name: deploy istio services
-  shell: kubectl create -f "/tufin-infra/istio-{{ istio_version }}"/
-
-- name: deploy istio rbac
-  shell: "kubectl apply -f istio-rbac.yaml"
+- name: Deploy istio services
+  shell: "{{ item }}"
+  with_items:
+  - kubectl apply -f /tufin-infra/istio-0.1.6/install/kubernetes/istio-rbac-beta.yaml
+  - kubectl apply -f /tufin-infra/istio-0.1.6/install/kubernetes/istio.yaml

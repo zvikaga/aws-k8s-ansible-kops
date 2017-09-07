@@ -1,0 +1,32 @@
+---
+
+####################
+# Deploy Aut
+####################
+
+- name: Deploy Aut
+  shell: {{ item }}
+  with_items:
+  - kubectl apply -f /tufin-infra/aut/deployment/istio/addons/
+
+  - kubectl create -f aut/deployment/kite/kite.yaml
+
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_db.yaml)
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_db_svc.yaml)
+#  - kubectl create -f aut/deployment/db/aut_db.yaml
+#  - kubectl create -f aut/deployment/db/aut_db_svc.yaml
+
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/postgres/aut_postgres.yaml)
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/postgres/aut_postgres_svc.yaml)
+#  - kubectl create -f aut/deployment/postgres/aut_postgres_svc.yaml
+#  - kubectl create -f aut/deployment/postgres/aut_postgres.yaml
+
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/customer/aut_customer.yaml)
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/customer/aut_customer_svc.yaml)
+#  - kubectl create -f aut/deployment/customer/aut_customer.yaml
+#  - kubectl create -f aut/deployment/customer/aut_customer_svc.yaml
+
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/indexer/aut_indexer.yaml)
+
+#  - kubectl create -f <(istioctl kube-inject -f aut/deployment/admin/aut_admin_svc.yaml)
+#  - kubectl create -f <(istioctl kube-inject -f aut/deployment/admin/aut_admin.yaml)
