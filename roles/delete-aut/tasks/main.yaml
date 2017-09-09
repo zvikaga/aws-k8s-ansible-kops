@@ -1,0 +1,50 @@
+- name: Delete istio addons
+  shell: "{{ item }}"
+  with_items:
+  - "kubectl delete -f /tufin-infra/aut/deployment/istio/addons/"
+
+
+- name: Delete Kite
+  shell: "{{ item }}"
+  with_items:
+  - "kubectl delete -f /tufin-infra/aut/deployment/kite/kite.yaml"
+
+
+- name: Delete aut db
+  shell: "{{ item }}"
+  with_items:
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db.yaml)"
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml)"
+#  - 'kubectl delete -f /tufin-infra/aut/deployment/db/aut_db.yaml"
+#  - 'kubectl delete -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml'
+
+
+- name: Delete aut progress
+  shell: "{{ item }}"
+  with_items:
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml)"
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml)"
+#  - 'kubectl delete -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml"
+#  - "kubectl delete -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml'
+
+
+- name: Delete aut customer
+  shell: "{{ item }}"
+  with_items:
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer.yaml)"
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml)"
+#  - "kubectl delete -f /tufin-infra/aut/deployment/customer/aut_customer.yaml"
+#  - "kubectl delete -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml"
+
+
+- name: Delete aut indexer
+  shell: "{{ item }}"
+  with_items:
+  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/indexer/aut_indexer.yaml)"
+
+
+#- name: Delete aut admin
+#  shell: "{{ item }}"
+#  with_items:
+#  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin_svc.yaml)"
+#  - "kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin.yaml)"
