@@ -13,10 +13,8 @@
 - name: Deploy aut db
   shell: '{{ item }}'
   with_items:
-  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml)'
-  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db.yaml)'
-#  - 'kubectl create -f /tufin-infra/aut/deployment/db/aut_db.yaml'
-#  - 'kubectl create -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml'
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_redis.yaml)
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_redis_svc.yaml)
 
 
 - name: Deploy aut customer
@@ -24,8 +22,6 @@
   with_items:
   - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml)'
   - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer.yaml)'
-#  - 'kubectl create -f /tufin-infra/aut/deployment/customer/aut_customer.yaml'
-#  - 'kubectl create -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml'
 
 
 - name: Deploy aut indexer
