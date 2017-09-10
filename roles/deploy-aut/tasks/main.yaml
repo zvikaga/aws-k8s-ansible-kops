@@ -4,10 +4,10 @@
 # Deploy Aut
 ####################
 
-- name: Deploy Kite
-  shell: '{{ item }}'
-  with_items:
-  - 'kubectl create -f /tufin-infra/aut/deployment/kite/kite.yaml'
+#- name: Deploy Kite
+#  shell: '{{ item }}'
+#  with_items:
+#  - 'kubectl create -f /tufin-infra/aut/deployment/kite/kite.yaml'
 
 
 - name: Deploy aut db
