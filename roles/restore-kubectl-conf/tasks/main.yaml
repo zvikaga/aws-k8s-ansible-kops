@@ -1,0 +1,26 @@
+---
+
+####################
+# Rstore kubectl config after reload container
+####################
+
+- name: Get kubectl config
+  shell: "kubectl config view"
+  register: kubeconfig
+
+
+- name: Get kubectl config
+  shell: "kops export kubecfg --name='{{ cluster_name }}' --state='{{ state_store }}'"
+  register: kubeconfig
+  when: kubeconfig.stdout.find('clusters: []') != -1
+
+- name: Get VPC info
+  ec2_vpc_net_facts:
+    filters:
+      "tag:Name": customerk8s
+  register: vpcinfo
+
+
+- name: change kubectl server config to the api elb address
+  shell: "kubectl config set-cluster custk8s.customerk8s.local --server=https://'{{ elb_facts.elbs.0.dns_name }}' --insecure-skip-tls-verify=true"
+
