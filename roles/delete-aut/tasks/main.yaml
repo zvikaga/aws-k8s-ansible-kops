@@ -7,38 +7,38 @@
 - name: Delete Kite
   shell: '{{ item }}'
   with_items:
-  - 'kubectl delete -f /tufin-infra/aut/Deletement/kite/kite.yaml'
+  - 'kubectl delete -f /tufin-infra/aut/deployment/kite/kite.yaml'
 
 
 - name: Delete aut db
   shell: '{{ item }}'
   with_items:
-  - kubectl delete -f <(istioctl kube-inject -f aut/Deletement/db/aut_redis.yaml)
-  - kubectl delete -f <(istioctl kube-inject -f aut/Deletement/db/aut_redis_svc.yaml)
+  - kubectl delete -f <(istioctl kube-inject -f aut/deployment/db/aut_redis.yaml)
+  - kubectl delete -f <(istioctl kube-inject -f aut/deployment/db/aut_redis_svc.yaml)
 
 
 - name: Delete aut customer
   shell: '{{ item }}'
   with_items:
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/customer/aut_customer_svc.yaml)'
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/customer/aut_customer.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer.yaml)'
 
 
 - name: Delete aut indexer
   shell: '{{ item }}'
   with_items:
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/indexer/aut_indexer_svc.yaml)'
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/indexer/aut_indexer.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/indexer/aut_indexer_svc.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/indexer/aut_indexer.yaml)'
 
 - name: Delete aut posgres
   shell: '{{ item }}'
   with_items:
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/postgres/aut_postgres_svc.yaml)'
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/postgres/aut_postgres.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml)'
 
 
 - name: Delete aut admin
   shell: '{{ item }}'
   with_items:
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/admin/aut_admin_svc.yaml)'
-  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/Deletement/admin/aut_admin.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin_svc.yaml)'
+  - 'kubectl delete -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin.yaml)'
