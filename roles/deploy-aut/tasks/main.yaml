@@ -46,8 +46,8 @@
 - name: Deploy aut posgres
   shell: '{{ item }}'
   with_items:
-  - 'kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_postgres.yaml)'
-  - 'kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_postgres_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_posgres.yaml)'
 
 
 - name: Deploy aut admin
