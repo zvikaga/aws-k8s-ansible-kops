@@ -1,0 +1,12 @@
+---
+
+####################
+# Delete Istio
+####################
+
+- name: Delete istio services
+  shell: "{{ item }}"
+  with_items:
+  - kubectl delete -f /tufin-infra/istio-0.1.6/install/kubernetes/istio-rbac-beta.yaml
+  - kubectl delete -f /tufin-infra/istio-0.1.6/install/kubernetes/istio.yaml
+  - kubectl delete -f /tufin-infra/aut/deployment/istio/addons/
