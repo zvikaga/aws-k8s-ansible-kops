@@ -6,10 +6,10 @@
 - hosts: localhost
   connection: local
   roles:
-#    - clone-git-repos
-#    - create-vpc
-#    - generate-ssh-keys
-#    - create-cluster
-#    - install-istio
-#    - deploy-istio
+    - clone-git-repos
+    - create-vpc
+    - generate-ssh-keys
+    - create-cluster
+    - install-istio
+    - deploy-istio
     - deploy-aut

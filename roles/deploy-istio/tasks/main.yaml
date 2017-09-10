@@ -9,3 +9,4 @@
   with_items:
   - kubectl apply -f /tufin-infra/istio-0.1.6/install/kubernetes/istio-rbac-beta.yaml
   - kubectl apply -f /tufin-infra/istio-0.1.6/install/kubernetes/istio.yaml
+  - kubectl apply -f /tufin-infra/aut/deployment/istio/addons/

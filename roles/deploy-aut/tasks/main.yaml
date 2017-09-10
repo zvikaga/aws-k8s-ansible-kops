@@ -4,53 +4,54 @@
 # Deploy Aut
 ####################
 
-- name: Deploy istio addons
-  shell: "{{ item }}"
-  with_items:
-  - "kubectl apply -f /tufin-infra/aut/deployment/istio/addons/"
-
-
 - name: Deploy Kite
-  shell: "{{ item }}"
+  shell: '{{ item }}'
   with_items:
-  - "kubectl create -f /tufin-infra/aut/deployment/kite/kite.yaml"
+  - 'kubectl create -f /tufin-infra/aut/deployment/kite/kite.yaml'
 
 
 - name: Deploy aut db
-  shell: "{{ item }}"
+  shell: '{{ item }}'
   with_items:
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db.yaml)"
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml)"
-#  - 'kubectl create -f /tufin-infra/aut/deployment/db/aut_db.yaml"
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/db/aut_db.yaml)'
+#  - 'kubectl create -f /tufin-infra/aut/deployment/db/aut_db.yaml'
 #  - 'kubectl create -f /tufin-infra/aut/deployment/db/aut_db_svc.yaml'
 
 
 - name: Deploy aut progress
-  shell: "{{ item }}"
+  shell: '{{ item }}'
   with_items:
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml)"
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml)"
-#  - 'kubectl create -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml"
-#  - "kubectl create -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml'
+   - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml)'
+#  - 'kubectl create -f /tufin-infra/aut/deployment/postgres/aut_postgres_svc.yaml'
+#  - 'kubectl create -f /tufin-infra/aut/deployment/postgres/aut_postgres.yaml'
 
 
 - name: Deploy aut customer
-  shell: "{{ item }}"
+  shell: '{{ item }}'
   with_items:
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer.yaml)"
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml)"
-#  - "kubectl create -f /tufin-infra/aut/deployment/customer/aut_customer.yaml"
-#  - "kubectl create -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml"
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/customer/aut_customer.yaml)'
+#  - 'kubectl create -f /tufin-infra/aut/deployment/customer/aut_customer.yaml'
+#  - 'kubectl create -f /tufin-infra/aut/deployment/customer/aut_customer_svc.yaml'
 
 
 - name: Deploy aut indexer
-  shell: "{{ item }}"
+  shell: '{{ item }}'
   with_items:
-  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/indexer/aut_indexer.yaml)"
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/indexer/aut_indexer_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/indexer/aut_indexer.yaml)'
+
+- name: Deploy aut posgres
+  shell: '{{ item }}'
+  with_items:
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_postgres.yaml)
+  - kubectl create -f <(istioctl kube-inject -f aut/deployment/db/aut_postgres_svc.yaml)
 
 
-#- name: Deploy aut admin
-#  shell: "{{ item }}"
-#  with_items:
-#  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin_svc.yaml)"
-#  - "kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin.yaml)"
+- name: Deploy aut admin
+  shell: '{{ item }}'
+  with_items:
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin_svc.yaml)'
+  - 'kubectl create -f <(istioctl kube-inject -f /tufin-infra/aut/deployment/admin/aut_admin.yaml)'
