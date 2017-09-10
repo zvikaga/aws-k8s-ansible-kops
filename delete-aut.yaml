@@ -7,5 +7,6 @@
 - hosts: localhost
   connection: local
   roles:
+    - restore-kubectl-conf
     - delete-aut
     - delete-istio
