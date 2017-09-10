@@ -1,0 +1,11 @@
+---
+
+############################################
+# Delete the Kubernetes cluster
+############################################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - delete-aut
+    - delete-istio
